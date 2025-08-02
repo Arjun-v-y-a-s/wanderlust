@@ -1,0 +1,166 @@
+<% layout("layouts/boilerplate.ejs") -%>
+
+<style>
+   
+  .index-search{
+    position:fixed;
+    top:1.1rem;
+    left:26rem;
+    z-index: 9999;
+  }
+  .search-btn{
+    background-color: #fe244d;
+    color:white;
+    border-radius: 25px;
+    padding: 0 1rem 0 1rem;
+  }
+   .search-btn:hover{
+    background-color: #fe244d;
+    color:white;
+  }
+  .search-btn i{
+    display:inline;
+    margin-right: 0.5rem;
+  }
+  .search-input{
+    width: 17rem;
+    border-radius: 25px;
+    padding:0.5rem 3rem 0.5rem 3rem;
+    font-size:1.1rem;
+  }
+   .filters{
+         display:flex;
+         flex-wrap: wrap;
+         align-items: center;
+
+   }
+
+   .filter{
+   text-decoration: none;
+   color:black;
+      text-align:center;
+      margin-right:2rem;
+      margin-top:2rem;
+      opacity:0.6;
+      
+   }
+   .filter:hover{
+      opacity:1;
+      cursor:pointer;
+   }
+   .filter p{
+      font-size: 0.8rem;
+   }
+
+   .tax-info{
+      display: none;
+   }
+   .tax-toggle{
+      border:1px solid black;
+      border-radius:1rem;
+      height:3.5rem;
+      padding:1rem;
+      margin-left: 2rem;
+      display: flex;
+      align-items: center;
+   }
+</style>
+ 
+
+   <div class="navbar-nav ms-auto row index-search">
+         <form class="d-flex needs-validation" novalidate role="search" method="get" action="/listings/search">
+      <input class="form-control me-2 search-input " type="search" name="location" placeholder="Search destinations" required />
+       <div class="invalid-feedback">enter location</div> 
+      <button class="btn search-btn " type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+    </form>
+      </div>
+
+      
+    <div class="filters">
+      <a href="/listings?category=trending" class="filter">
+        <div> <i class="fa-solid fa-fire"></i></div>
+         <p>Trending</p>
+      </a>
+      <a href="/listings?category=room" class="filter">
+        <div> <i class="fa-solid fa-bed"></i></div>
+         <p>Room</p>
+      </a>
+      <a href="/listings?category=iconicCities" class="filter">
+        <div> <i class="fa-solid fa-mountain-city"></i></div>
+         <p>Iconic cities</p>
+      </a>
+      <a href="/listings?category=mountain" class="filter">
+        <div> <i class="fa-solid fa-mountain"></i></div>
+         <p>Mountains</p>
+      </a>
+      <a href="/listings?category=castle" class="filter">
+        <div> <i class="fa-solid fa-fort-awesome"></i></div>
+         <p>Castles</p>
+      </a>
+      <a href="/listings?category=amazingPool" class="filter">
+        <div> <i class="fa-solid fa-person-swimming"></i></div>
+         <p>Amazing pool</p>
+      </a>
+       <a href="/listings?category=camping" class="filter">
+        <div> <i class="fa-solid fa-campground"></i></div>
+         <p>Camping</p>
+       </a>
+      <a href="/listings?category=farm" class="filter">
+        <div> <i class="fa-solid fa-cow"></i></div>
+         <p>Farms</p>
+      </a>
+      <a href="/listings?category=arctic" class="filter">
+        <div> <i class="fa-solid fa-snowflake"></i></div>
+         <p>Arctic </p>
+      </a>
+        <a href="/listings?category=boat" class="filter">
+        <div> <i class="fa-solid fa-ship"></i></div>
+         <p>Boats</p>
+        </a>
+      
+
+      <div class="tax-toggle">
+         <div class="form-check-reverse form-switch">
+  <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+  <label class="form-check-label" for="switchCheckDefault">Display with taxes</label>
+</div>
+      </div>
+    </div>
+
+
+ <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <%for(list of allListings){%>
+     <a href="listings/<%=list._id%>" class="listing-link">
+      <div class="card col listing-card" >
+       <img src="<%=list.image.url%>" class="card-img-top" alt="listing_image" style="height: 20rem">
+       <div class="card-img-overlay"></div>
+        <div class="card-body">
+            <p class="card-text">
+               <b> <%=list.title%></b>
+                <br/>
+           &#8377; <%= (typeof list.price === "number") ? list.price.toLocaleString("en-IN") : "N/A" %> / night
+                  <i class="tax-info">&nbsp; &nbsp; +18% GST</i>
+
+            </p>
+            
+         </div>
+      </div>
+     </a>
+    <%}%> 
+  </div>
+
+<script>
+   let taxSwitch =document.getElementById("switchCheckDefault");
+   taxSwitch.addEventListener("click",()=>{
+     let taxInfo = document.getElementsByClassName("tax-info");
+     for(info of taxInfo){
+      if(info.style.display != "inline"){
+      info.style.display = "inline";
+      }else{
+          info.style.display = "none";
+      }
+     }
+   })
+</script>
+
+

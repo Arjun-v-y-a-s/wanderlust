@@ -39,10 +39,10 @@ const listingSchema = new Schema({
       required: true
     },
   } ,
-  category : {
+  category :[ {
     type:String,
     enum:["trending","room","iconicCities","mountain","castle","amazingPool","camping","farm","arctic","boat"]
-  }   
+  } ]  
     
 });
 

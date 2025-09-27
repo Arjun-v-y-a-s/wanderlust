@@ -11,7 +11,7 @@ module.exports.index = async (req,res)=>{
     allListings= await Listing.find({});
    return res.render("listings/index.ejs",{allListings});
   }else{
-      allListings = await Listing.find({category:category});
+      allListings = await Listing.find({ category: { $in: [category] } });
       res.render("listings/filter.ejs",{allListings});
   }
   
@@ -49,12 +49,12 @@ module.exports.createListing = async(req,res,next)=>{
   limit: 1
 })
   .send();
- let listCategory =req.body.category;
+ let listCategory = req.body.listing.category;
   let url = req.file.path;
   let filename = req.file.filename;
  const newListing=  new Listing(req.body.listing);
 
- newListing.category = listCategory;
+ newListing.category =  listCategory;
  newListing.owner = req.user._id;
  newListing.image ={url,filename};
  newListing.geometry = response.body.features[0].geometry;
